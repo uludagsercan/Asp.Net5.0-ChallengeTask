@@ -1,4 +1,7 @@
 ﻿using Business.Abstract;
+using Core.Aspects.Autofac.Logging;
+using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
+using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
@@ -21,39 +24,81 @@ namespace Business.Concrete
             _orderDal = orderDal;
             _customerService = customerService;
         }
-
+        [LogAspect(typeof(FileLogger))]
         public IResult Add(Order order)
         {
-            if (order.CustomerId != null)
+
+            var customerResult = _customerService.Get(order.CustomerId);
+            if (!customerResult.Success)
             {
-                var result = _customerService.Get(order.CustomerId);
-                order.Customer = result.Data;
+                return customerResult;
             }
-            
+            order.Customer = customerResult.Data;
             _orderDal.Add(order);
             return new SuccessResult("Ekleme işlemi başarılıdır.");
         }
 
         public IResult Delete(string id)
         {
-           _orderDal.DeleteById(id);
+            var businessResult = BusinessRule.Run(CheckIfOrderExist(id));
+            if (businessResult!=null)
+            {
+                return businessResult;
+            }
+            _orderDal.DeleteById(id);
             return new SuccessResult("Silme işlemi başarılır");
         }
 
         public IDataResult<Order> Get(string id)
         {
-            throw new NotImplementedException();
+            var businessResult = BusinessRule.Run(CheckIfOrderExist(id));
+            if (businessResult!=null)
+            {
+                return new ErrorDataResult<Order>(businessResult.Message);
+            }
+            var orderResult = _orderDal.Get(x=> x.OrderId==id);
+            return new SuccessDataResult<Order>(orderResult, "Sipariş bilgisi listelendi");
         }
 
         public IDataResult<ICollection<Order>> GetAll()
         {
             var result = _orderDal.GetAll();
-            return new SuccessDataResult<ICollection<Order>>(result,"Listeleme işlemi başarılıdır");
+            if (result.Count()<=0)
+            {
+                return new ErrorDataResult<ICollection<Order>>("Sipariş bilgisi bulunamadı");
+            }
+            return new SuccessDataResult<ICollection<Order>>(result, "Listeleme işlemi başarılıdır");
         }
 
         public IResult Update(Order order)
         {
-            throw new NotImplementedException();
+            var businessResult = BusinessRule.Run(CheckIfOrderExist(order.OrderId),CheckIfCustomerExistAndChange(order.OrderId, order.CustomerId));
+            if (businessResult!=null)
+            {
+                return businessResult;
+            }
+            _orderDal.Update(order,order.OrderId);
+            return new SuccessResult("Güncelleme işlemi başarılıdır");
+        }
+
+        private IResult CheckIfOrderExist(string id)
+        {
+            var result = _orderDal.Get(x => x.CustomerId.Equals(id));
+            if (result == null)
+            {
+                return new ErrorResult("Sipariş bilgisi bulunamadı");
+            }
+            return new SuccessResult();
+        }
+        private IResult CheckIfCustomerExistAndChange(string orderId,string customerId)
+        {
+            
+            var orderResult = _orderDal.Get(x=> x.OrderId.Equals(orderId));
+            if (!orderResult.CustomerId.Equals(customerId))
+            {
+                return new ErrorResult("Müşteri bilgisi değiştirilemez");
+            }
+            return new SuccessResult();
         }
     }
 }

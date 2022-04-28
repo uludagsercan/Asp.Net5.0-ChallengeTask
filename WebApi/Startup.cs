@@ -1,5 +1,7 @@
 using Business.Abstract;
 using Business.Concrete;
+using Core.Extensions;
+using Core.Utilities.IoC;
 using DataAccess.Abstract;
 using DataAccess.Concrete.MongoDb;
 using Microsoft.AspNetCore.Builder;
@@ -32,10 +34,10 @@ namespace WebApi
         {
 
             services.AddControllers();
-            services.AddSingleton<ICustomerService, CustomerManager>();
-            services.AddSingleton<IOrderService, OrderManager>();
-            services.AddSingleton<IOrderDal, MdOrderDal>();
-            services.AddSingleton<ICustomerDal, MdCustomerDal>();
+            services.AddDependencyResolvers(new ICoreModule[]
+            {
+                new Core.DependencyResolvers.CoreModule()
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
@@ -51,7 +53,7 @@ namespace WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi v1"));
             }
-
+            app.ConfigureCustomExceptionMiddleware();
             app.UseHttpsRedirection();
 
             app.UseRouting();
