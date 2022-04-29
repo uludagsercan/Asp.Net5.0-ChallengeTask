@@ -1,4 +1,5 @@
 ﻿using log4net;
+using log4net.Appender;
 using log4net.Repository;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace Core.CrossCuttingConcerns.Logging.Log4Net
         public LoggerServiceBase(string name)
         {
             XmlDocument xmlDocument = new XmlDocument();
+            
             xmlDocument.Load(File.OpenRead("log4net.config"));
 
             ILoggerRepository loggerRepository = LogManager.CreateRepository(Assembly.GetEntryAssembly(),
@@ -25,7 +27,8 @@ namespace Core.CrossCuttingConcerns.Logging.Log4Net
 
             _log = LogManager.GetLogger(loggerRepository.Name, name);
 
-
+            
+            
         }
 
         public bool IsInfoEnabled => _log.IsInfoEnabled;

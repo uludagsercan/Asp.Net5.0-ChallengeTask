@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "1nLb4w0Nw0/Ktb0lCu1cWg782sctm/0f58NKirPFtScjYC1bZwJpwuUlu2Ni+NxYw5nJZ1WAj4NTbYwudmskrQ==",
+  "dgSpecHash": "HhsBKjfkrK7x9DVWYGWzWm1vcXcOg7bKByWOdE4nXLM6fv1oNZ9nnigFbAyfmJyoo2KL2n0y/mrjlI1cBXncHg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Sercan\\source\\repos\\ChallengeTask\\Business\\Business.csproj",
   "expectedPackageFiles": [
@@ -130,6 +130,7 @@
     "C:\\Users\\Sercan\\.nuget\\packages\\system.threading\\4.3.0\\system.threading.4.3.0.nupkg.sha512",
     "C:\\Users\\Sercan\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\Sercan\\.nuget\\packages\\system.threading.tasks.extensions\\4.3.0\\system.threading.tasks.extensions.4.3.0.nupkg.sha512",
+    "C:\\Users\\Sercan\\.nuget\\packages\\system.threading.thread\\4.3.0\\system.threading.thread.4.3.0.nupkg.sha512",
     "C:\\Users\\Sercan\\.nuget\\packages\\system.threading.timer\\4.3.0\\system.threading.timer.4.3.0.nupkg.sha512",
     "C:\\Users\\Sercan\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\Sercan\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",

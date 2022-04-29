@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Concrete;
 using Entity.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,8 @@ namespace WebApi.Controllers
         public IActionResult GetAll()
         {
             var result = _orderService.GetAll();
+            LogManager lg = new LogManager();
+            lg.LogSave();
             return Ok(result);
         }
     }

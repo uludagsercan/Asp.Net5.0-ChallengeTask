@@ -40,7 +40,7 @@ namespace Core.Aspects.Autofac.Exception
                 logParameters.Add(new LogParameter
                 {
                     Name = invocation.GetConcreteMethod().GetParameters()[i].Name,
-                    Value = invocation.Arguments[i],
+                    Value = invocation.Arguments[i].ToString(),
                     Type = invocation.Arguments[i].GetType().Name
                 });
             }

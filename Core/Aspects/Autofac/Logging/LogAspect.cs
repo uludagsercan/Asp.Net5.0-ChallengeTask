@@ -14,7 +14,7 @@ namespace Core.Aspects.Autofac.Logging
     public class LogAspect : MethodInterception
     {
         private LoggerServiceBase _loggerServiceBase;
-
+        private string _value="";
         public LogAspect(Type loggerService)
         {
             if (loggerService.BaseType != typeof(LoggerServiceBase))
@@ -27,7 +27,18 @@ namespace Core.Aspects.Autofac.Logging
 
         protected override void OnBefore(IInvocation invocation)
         {
+            for (int i = 0; i < invocation.Arguments.Length; i++)
+            {
+                foreach (var item in invocation.Arguments[i].GetType().GetProperties())
+                {
+                    _value += item.GetValue(invocation.Arguments[i]) != null ?
+                        item.Name + " : " + item.GetValue(invocation.Arguments[i])
+                        : item.Name + " : null";
+                }
+            }
             _loggerServiceBase.Info(GetLogDetail(invocation));
+           
+            
         }
         protected override void OnSuccess(IInvocation invocation)
         {
@@ -50,25 +61,20 @@ namespace Core.Aspects.Autofac.Logging
                 logParameters.Add(new LogParameter
                 {
                     Name = invocation.GetConcreteMethod().GetParameters()[i].Name,
-                    Value = invocation.Arguments[i],
+                    Value = _value,
                     Type = invocation.Arguments[i].GetType().Name
-                });
+                }) ;
             }
-            if (invocation.ReturnValue==null)
-            {
-                var logDetail = new LogDetail
-                {
-                    MethodName = invocation.Method.Name,
-                    LogParameters = logParameters
-
-                };
-                return logDetail;
-            }
+           
             var logResult = new LogResult
             {
                 MethodName = invocation.Method.Name,
-                Message = (string)invocation.ReturnValue.GetType().GetProperty("Message").GetValue(invocation.ReturnValue, null),
-                Success = (bool)invocation.ReturnValue.GetType().GetProperty("Success").GetValue(invocation.ReturnValue, null),
+                Message = invocation.ReturnValue!=null ? 
+                (string)invocation.ReturnValue.GetType().GetProperty("Message").GetValue(invocation.ReturnValue, null):
+                "null",
+                Success = invocation.ReturnValue!=null?
+                (bool)invocation.ReturnValue.GetType().GetProperty("Success").GetValue(invocation.ReturnValue, null)
+                :false,
                 LogParameters = logParameters
             };
 
