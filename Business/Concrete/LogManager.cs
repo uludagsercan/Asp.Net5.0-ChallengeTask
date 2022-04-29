@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Core.Entities.Concrete;
+using Core.Utilities.Results.Abstract;
+using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -22,9 +24,14 @@ namespace Business.Concrete
             _logDal = logDal;
         }
 
-        public Task LogSave()
+        public IDataResult<ICollection<Log>> GetAllByDateAndLevel(string date, string level)
         {
-            
+            var result = _logDal.GetAll(x=> x.Level.Equals(level) && x.Date.Equals(level));
+            return new SuccessDataResult<ICollection<Log>>(result, "Tarihe ve Log leveline göre loglar listelenmiştir.");
+        }
+
+        public Task LogSave()
+        {        
             return Task.Run(() =>
             {
                 using (var stream = new StreamReader(new FileStream("C:/Log/log.json", FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite)))
@@ -40,13 +47,11 @@ namespace Business.Concrete
                     {
                         foreach (var logItem in logs)
                         {
-                            _logDal.Add(logItem);
-                           
+                            _logDal.Add(logItem);                          
                         }
                     }
                     stream.Close();
-                    File.WriteAllText("C:/Log/log.json",string.Empty);
-                    
+                    File.WriteAllText("C:/Log/log.json",string.Empty);                 
                 }
             });
         }
