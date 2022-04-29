@@ -1,17 +1,17 @@
-﻿using Core.CrossCuttingConcerns.Logging;
+﻿
+using Core.CrossCuttingConcerns.Logging;
+using Core.Entities.Abstract;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Entities.Concrete
 {
+    
     public class Detail
     {
-        
+        public bool Success { get; set; }
+        public string Message { get; set; }
         public string MethodName { get; set; }
         public List<LogParameter> LogParameters { get; set; }
     }

@@ -20,6 +20,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<OrderManager>().As<IOrderService>();
             builder.RegisterType<MdOrderDal>().As<IOrderDal>();
 
+            builder.RegisterType<LogManager>().As<ILogService>();
+            builder.RegisterType<MdLogDal>().As<ILogDal>();
+     
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()

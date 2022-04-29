@@ -20,7 +20,7 @@ namespace Core.CrossCuttingConcerns.Logging.Log4Net.Layouts
         public override void Format(TextWriter writer, LoggingEvent loggingEvent)
         {
             var logEvent = new SerializableLogEvent(loggingEvent);
-            var json = JsonConvert.SerializeObject(logEvent, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(logEvent, Formatting.None);
             writer.WriteLine(json);
         }
     }
