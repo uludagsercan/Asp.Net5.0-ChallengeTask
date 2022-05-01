@@ -10,6 +10,8 @@ namespace Core.Entities.Concrete
     
     public class Detail
     {
+        
+        public string? ExceptionMessage { get; set; }
         public bool Success { get; set; }
         public string Message { get; set; }
         public string MethodName { get; set; }

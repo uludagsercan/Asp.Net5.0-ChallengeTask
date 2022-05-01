@@ -12,7 +12,18 @@ namespace Business.ValidationRules.FluentValidation
     {
         public CustomerValidator()
         {
+   
+           
+        }
 
+        private bool IsValidHex(string id)
+        {
+            int res = 0;
+            if (Int32.TryParse(id,System.Globalization.NumberStyles.HexNumber,System.Globalization.CultureInfo.InvariantCulture,out res))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

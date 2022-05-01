@@ -13,9 +13,10 @@ namespace Business.Abstract
     public interface ICustomerService
     {
         IResult Add(Customer customer);
+
         IResult Update(Customer customer);
         IResult Delete(string id);
-        IDataResult<Customer> Get(string id);
+        IDataResult<Customer> Get(string id,string name);
         IDataResult<ICollection<Customer>> GetAll();
         IDataResult<ICollection<CustomerNameWithOrderDto>> GetAllContainsName(string name);
         IDataResult<ICollection<Customer>> GetCustomerIfOrderIsNotExist();

@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Logging;
 using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
 using Core.Utilities.Business;
@@ -6,14 +7,13 @@ using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entity.Concrete;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Business.Concrete
 {
+    [LogAspect(typeof(FileLogger))]
     public class OrderManager : IOrderService
     {
         private readonly IOrderDal _orderDal;
@@ -24,11 +24,11 @@ namespace Business.Concrete
             _orderDal = orderDal;
             _customerService = customerService;
         }
-        [LogAspect(typeof(FileLogger))]
+        [CacheRemoveAspect("IOrderService.Get")]
         public IResult Add(Order order)
         {
 
-            var customerResult = _customerService.Get(order.CustomerId);
+            var customerResult = _customerService.Get(order.CustomerId,"sss");
             if (!customerResult.Success)
             {
                 return customerResult;
@@ -37,7 +37,7 @@ namespace Business.Concrete
             _orderDal.Add(order);
             return new SuccessResult("Ekleme işlemi başarılıdır.");
         }
-
+        [CacheRemoveAspect("IOrderService.Get")]
         public IResult Delete(string id)
         {
             var businessResult = BusinessRule.Run(CheckIfOrderExist(id));
@@ -48,7 +48,7 @@ namespace Business.Concrete
             _orderDal.DeleteById(id);
             return new SuccessResult("Silme işlemi başarılır");
         }
-
+        [CacheAspect]
         public IDataResult<Order> Get(string id)
         {
             var businessResult = BusinessRule.Run(CheckIfOrderExist(id));
@@ -59,7 +59,7 @@ namespace Business.Concrete
             var orderResult = _orderDal.Get(x=> x.OrderId==id);
             return new SuccessDataResult<Order>(orderResult, "Sipariş bilgisi listelendi");
         }
-
+        [CacheAspect]
         public IDataResult<ICollection<Order>> GetAll()
         {
             var result = _orderDal.GetAll();
@@ -70,6 +70,7 @@ namespace Business.Concrete
             return new SuccessDataResult<ICollection<Order>>(result, "Listeleme işlemi başarılıdır");
         }
 
+        [CacheRemoveAspect("IOrderService.Get")]
         public IResult Update(Order order)
         {
             var businessResult = BusinessRule.Run(CheckIfOrderExist(order.OrderId),CheckIfCustomerExistAndChange(order.OrderId, order.CustomerId));

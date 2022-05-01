@@ -10,6 +10,7 @@ namespace Business.Abstract
 {
     public interface IOrderService
     {
+        
         IResult Add(Order order);
         IResult Update(Order order);
         IResult Delete(string id);

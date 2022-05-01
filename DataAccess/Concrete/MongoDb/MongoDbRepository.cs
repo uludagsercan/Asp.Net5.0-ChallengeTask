@@ -39,7 +39,7 @@ namespace DataAccess.Concrete.MongoDb
             using (var context = new MongoDbContext())
             {
                 var collection = context.GetCollection<TEntity>();
-                return collection.AsQueryable().SingleOrDefault(filter);
+                return collection.Find(filter).SingleOrDefault();
             }
         }
 

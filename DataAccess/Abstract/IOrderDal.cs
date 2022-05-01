@@ -6,6 +6,6 @@ namespace DataAccess.Abstract
 {
     public interface IOrderDal:IRepositoryBase<Order>
     {
-        public ICollection<Order> GetAllWithOrder();
+    
     }
 }

@@ -21,7 +21,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<MdOrderDal>().As<IOrderDal>();
 
             builder.RegisterType<LogManager>().As<ILogService>();
-            builder.RegisterType<MdLogDal>().As<ILogDal>();
+            builder.RegisterType<MdLogItemDal>().As<ILogItemDal>();
      
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

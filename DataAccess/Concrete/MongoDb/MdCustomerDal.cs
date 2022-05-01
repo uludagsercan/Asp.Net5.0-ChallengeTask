@@ -17,7 +17,7 @@ namespace DataAccess.Concrete.MongoDb
             {
                 var result = (from c in context.GetCollection<Customer>().AsQueryable().ToList()
                               join o in context.GetCollection<Order>().AsQueryable().ToList()
-                              on c equals o.Customer
+                              on c.CustomerId equals o.CustomerId
                               where c.CustomerName.Contains(name)
                               select new CustomerNameWithOrderDto
                               {
@@ -36,7 +36,7 @@ namespace DataAccess.Concrete.MongoDb
             {
                 var result = (from c in context.GetCollection<Customer>().AsQueryable().ToList()
                               join o in context.GetCollection<Order>().AsQueryable().ToList()
-                              on c equals o.Customer into gj
+                              on c.CustomerId equals o.CustomerId into gj
                               from co in gj.DefaultIfEmpty()
                               where co == null
                               select new Customer
