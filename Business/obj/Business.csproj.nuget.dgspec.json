@@ -71,6 +71,10 @@
               "target": "Package",
               "version": "[13.0.1, )"
             },
+            "Quartz": {
+              "target": "Package",
+              "version": "[3.4.0, )"
+            },
             "System.Threading.Thread": {
               "target": "Package",
               "version": "[4.3.0, )"

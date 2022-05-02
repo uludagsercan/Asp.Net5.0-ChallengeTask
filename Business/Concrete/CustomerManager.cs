@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Exception;
 using Core.Aspects.Autofac.Logging;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
@@ -14,11 +16,13 @@ using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
    
     [LogAspect(typeof(FileLogger))]
+    [ExceptionLogAspect(typeof(FileLogger))]
     public class CustomerManager : ICustomerService
     {
         private readonly ICustomerDal _customerDal;
@@ -30,12 +34,15 @@ namespace Business.Concrete
 
         [CacheRemoveAspect("ICustomerService.Get")]
         [ValidationAspect(typeof(CustomerValidator))]
-        public IResult Add(Customer customer)
+        [SecuredOperation("admin")]
+        
+        public async Task<IResult> Add(Customer customer)
         {
-            _customerDal.Add(customer);
+            await _customerDal.Add(customer);
             return new SuccessResult("Ekleme işlemi başarılıdır.");
         }
         [CacheRemoveAspect("ICustomerService.Get")]
+        [SecuredOperation("admin")]
         public IResult Delete(string id)
         {
             var businessResult = BusinessRule.Run(CheckIfCustomerExist(id));
@@ -47,6 +54,7 @@ namespace Business.Concrete
             return new SuccessResult("Silme işlemi başarılıdır");
         }
         [CacheAspect]
+        [SecuredOperation("admin, user")]
         
         public IDataResult<Customer> Get(string id, string name)
         {
@@ -60,7 +68,7 @@ namespace Business.Concrete
             var result = _customerDal.Get(x => x.CustomerId == id);
             return new SuccessDataResult<Customer>(result, "Müişteri ait bilgi listelenmiştir");
         }
-      
+        [SecuredOperation("admin")]
         public IDataResult<ICollection<Customer>> GetAll()
         {
             var result = _customerDal.GetAll();
@@ -72,6 +80,7 @@ namespace Business.Concrete
         }
 
         [CacheAspect]
+        [SecuredOperation("admin, user")]
         public IDataResult<ICollection<CustomerNameWithOrderDto>> GetAllContainsName(string name)
         {
             var result = _customerDal.GetCustomerContainsNameWithOrder(name);
@@ -83,6 +92,7 @@ namespace Business.Concrete
         }
 
         [CacheAspect]
+        [SecuredOperation("admin,user")]
         public IDataResult<ICollection<Customer>> GetCustomerIfOrderIsNotExist()
         {
             var result = _customerDal.GetCustomerIfOrderIsNotExist();
@@ -93,6 +103,7 @@ namespace Business.Concrete
             return new SuccessDataResult<ICollection<Customer>>(result, "Sipariş bilgisi olmayan müşteriler listelendi.");
         }
         [CacheRemoveAspect("ICustomerService.Get")]
+        [SecuredOperation("admin")]
         public IResult Update(Customer customer)
         {
             var businessResult = BusinessRule.Run(CheckIfCustomerExist(customer.CustomerId));
@@ -103,6 +114,7 @@ namespace Business.Concrete
             _customerDal.Update(customer, customer.CustomerId);
             return new SuccessResult("Güncelleme işlemi başarılıdır");
         }
+
 
         private IResult CheckIfCustomerExist(string customerId)
         {

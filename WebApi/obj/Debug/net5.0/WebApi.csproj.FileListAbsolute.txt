@@ -128,3 +128,5 @@ C:\Users\Sercan\source\repos\ChallengeTask\WebApi\bin\Debug\net5.0\Microsoft.Asp
 C:\Users\Sercan\source\repos\ChallengeTask\WebApi\bin\Debug\net5.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\Sercan\source\repos\ChallengeTask\WebApi\bin\Debug\net5.0\FluentValidation.AspNetCore.dll
 C:\Users\Sercan\source\repos\ChallengeTask\WebApi\bin\Debug\net5.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\Users\Sercan\source\repos\ChallengeTask\WebApi\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Sercan\source\repos\ChallengeTask\WebApi\bin\Debug\net5.0\Quartz.dll

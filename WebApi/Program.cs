@@ -19,20 +19,21 @@ namespace WebApi
     {
         public static async Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
-           
+            await CreateHostBuilder(args).Build().RunAsync();
 
-            var builder = new HostBuilder()
-            .ConfigureServices((hostContext, services) => {
-               
-                services.AddHostedService<LogService>();
-            });
+            //var builder = new HostBuilder()
+            //.ConfigureServices((hostContext, services) =>
+            //{
 
-            await builder.RunConsoleAsync();
+            //    services.AddHostedService<LogService>();
+            //});
+
+            //await builder.RunConsoleAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+     
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
             .ConfigureContainer<ContainerBuilder>(builder =>
             {
@@ -43,6 +44,6 @@ namespace WebApi
                     webBuilder.UseStartup<Startup>();
                 });
 
-      
+
     }
 }

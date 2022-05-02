@@ -10,7 +10,7 @@ namespace Core.DataAccess.MongoDb
 {
     public interface IRepositoryBase<TEntity> where TEntity : class, IEntity, new()
     {
-        void Add(TEntity entity);
+        Task Add(TEntity entity);
         void Update(TEntity entity,string id);
         void DeleteById(string id);
         TEntity Get(Expression<Func<TEntity, bool>> filter);

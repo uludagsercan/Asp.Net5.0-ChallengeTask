@@ -12,7 +12,7 @@ namespace Business.Abstract
 {
     public interface ICustomerService
     {
-        IResult Add(Customer customer);
+        Task<IResult> Add(Customer customer);
 
         IResult Update(Customer customer);
         IResult Delete(string id);

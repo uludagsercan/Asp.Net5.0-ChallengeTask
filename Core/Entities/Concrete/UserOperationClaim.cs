@@ -1,11 +1,12 @@
 ﻿
+using Core.Entities.Abstract;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 
 namespace Core.Entities.Concrete
 {
-    public class UserOperationClaim
+    public class UserOperationClaim:IEntity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

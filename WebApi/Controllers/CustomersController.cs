@@ -17,12 +17,12 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("add")]
-        public  IActionResult Add(Customer customer)
+        public async Task<IActionResult> Add(Customer customer)
         {
-            var result = _customerService.Add(customer);
+            var result = await _customerService.Add(customer);
             if (result.Success)
             {
-                return Ok(result);
+                return  Ok(result);
             }
            return BadRequest(result);
         }
