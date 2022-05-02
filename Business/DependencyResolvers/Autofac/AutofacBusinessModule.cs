@@ -31,7 +31,7 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<MdUserDal>().As<IUserDal>();
             builder.RegisterType<UserManager>().As<IUserService>();
-            builder.RegisterType<JobFactory>().As<IJobFactory>();
+       //     builder.RegisterType<JobFactory>().As<IJobFactory>();
            
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

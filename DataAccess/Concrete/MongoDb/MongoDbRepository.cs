@@ -14,12 +14,12 @@ namespace DataAccess.Concrete.MongoDb
 {
     public class MongoDbRepository<TEntity> : IRepositoryBase<TEntity> where TEntity : class, IEntity, new()
     {
-        public async Task Add(TEntity entity)
+        public void Add(TEntity entity)
         {
             using (var context = new MongoDbContext())
             {
                 var collection = context.GetCollection<TEntity>();
-                await collection.InsertOneAsync(entity);
+                collection.InsertOneAsync(entity);
             }
         }
 

@@ -80,8 +80,15 @@ namespace Business.Concrete
                         }
                     }
                     stream.Close();
-                    File.WriteAllText("C:/Log/log.json", string.Empty);
+                   
+                 
                 }
+                using (var writer = new StreamWriter(new FileStream("C:/Log/log.json",FileMode.Truncate,FileAccess.Write,FileShare.ReadWrite)))
+                {
+                   
+                    writer.Close();
+                }
+                
             });
         }
     }

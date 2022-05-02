@@ -16,5 +16,9 @@ namespace Core.Entities.Concrete
         public string Message { get; set; }
         public string MethodName { get; set; }
         public List<LogParameter> LogParameters { get; set; }
+        public Detail()
+        {
+            LogParameters = new List<LogParameter>();
+        }
     }
 }

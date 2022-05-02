@@ -12,15 +12,12 @@ using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entity.Concrete;
 using Entity.Dtos;
-using MongoDB.Bson;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-   
+
     [LogAspect(typeof(FileLogger))]
     [ExceptionLogAspect(typeof(FileLogger))]
     public class CustomerManager : ICustomerService
@@ -36,9 +33,9 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CustomerValidator))]
         [SecuredOperation("admin")]
         
-        public async Task<IResult> Add(Customer customer)
+        public IResult Add(Customer customer)
         {
-            await _customerDal.Add(customer);
+            _customerDal.Add(customer);
             return new SuccessResult("Ekleme işlemi başarılıdır.");
         }
         [CacheRemoveAspect("ICustomerService.Get")]
