@@ -19,8 +19,9 @@ namespace WebApi
     {
         public static async Task Main(string[] args)
         {
-           CreateHostBuilder(args).Build().Run();
-
+            var host = CreateHostBuilder(args).Build().RunAsync();
+            
+           
             //var builder = new HostBuilder()
             //.ConfigureServices((hostContext, services) =>
             //{

@@ -19,8 +19,8 @@ namespace Business.LoggingHostService
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                Thread.Sleep(TimeSpan.FromMinutes(0.5));
-                await _logService.LogSave();
+               // Thread.Sleep(TimeSpan.FromMinutes(0.5));
+               // await _logService.LogSave();
             }
         }
     }

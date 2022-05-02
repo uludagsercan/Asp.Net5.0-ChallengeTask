@@ -84,7 +84,7 @@ namespace Business.Concrete
 
         private IResult CheckIfOrderExist(string id)
         {
-            var result = _orderDal.Get(x => x.CustomerId.Equals(id));
+            var result = _orderDal.Get(x => x.OrderId.Equals(id));
             if (result == null)
             {
                 return new ErrorResult("Sipariş bilgisi bulunamadı");
@@ -95,6 +95,10 @@ namespace Business.Concrete
         {
             
             var orderResult = _orderDal.Get(x=> x.OrderId.Equals(orderId));
+            if (orderResult == null)
+            {
+                return new ErrorResult("Sipariş Bilgisi bulunamadı");
+            }
             if (!orderResult.CustomerId.Equals(customerId))
             {
                 return new ErrorResult("Müşteri bilgisi değiştirilemez");

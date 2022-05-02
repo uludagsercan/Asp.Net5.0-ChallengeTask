@@ -12,6 +12,7 @@ namespace Entity.Concrete
     {
         
 #nullable enable
+        [BsonIgnoreIfNull]
         public string? ExceptionMessage { get; set; }
         #nullable disable
         public bool Success { get; set; }      

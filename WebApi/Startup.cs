@@ -79,14 +79,14 @@ namespace WebApi
             app.UseAuthentication();
 
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
             var scheduler = app.ApplicationServices.GetService<IScheduler>();
-            QuartServiceUtility.StartJob<NotificationLogService>(scheduler,TimeSpan.FromMinutes(0.5));
+            QuartServiceUtility.StartJob<NotificationLogService>(scheduler,TimeSpan.FromMinutes(5));
         }
     }
 }
